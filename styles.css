@@ -1,0 +1,485 @@
+.meeting-scribe-modal .modal {
+  width: min(1040px, 94vw);
+}
+
+.meeting-scribe-modal .modal-content {
+  padding: 28px 28px 24px;
+}
+
+.meeting-scribe-shell {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.meeting-scribe-header {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.meeting-scribe-eyebrow {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.meeting-scribe-title-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.meeting-scribe-title-input {
+  flex: 1;
+  min-width: 0;
+  border: 1px solid var(--background-modifier-border);
+  border-radius: 14px;
+  background: var(--background-primary);
+  padding: 14px 16px;
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  box-shadow: none;
+}
+
+.meeting-scribe-title-input:focus {
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--interactive-accent) 18%, transparent);
+}
+
+.meeting-scribe-title-timer {
+  min-width: 64px;
+  text-align: right;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-muted);
+}
+
+.meeting-scribe-inline-tabs {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.meeting-scribe-tab {
+  border-radius: 999px;
+  padding: 10px 18px;
+  border: 1px solid color-mix(in srgb, var(--background-modifier-border) 88%, white);
+  background: var(--background-primary);
+  color: var(--text-normal);
+  font-size: 15px;
+  font-weight: 700;
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.45) inset,
+    0 3px 10px rgba(15, 23, 42, 0.08);
+}
+
+.meeting-scribe-tab.is-active {
+  border-color: color-mix(in srgb, var(--interactive-accent) 50%, var(--background-modifier-border));
+  background: color-mix(in srgb, var(--interactive-accent) 10%, var(--background-primary));
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--interactive-accent) 18%, transparent),
+    0 4px 14px rgba(124, 92, 191, 0.12);
+}
+
+.meeting-scribe-toolbar-card {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px 18px 18px;
+  border-radius: 28px;
+  border: 1px solid color-mix(in srgb, var(--interactive-accent) 20%, var(--background-modifier-border));
+  background:
+    radial-gradient(circle at 0 0, color-mix(in srgb, var(--interactive-accent) 12%, transparent), transparent 36%),
+    linear-gradient(180deg, color-mix(in srgb, var(--background-secondary) 76%, white), var(--background-primary));
+}
+
+.meeting-scribe-toolbar-row {
+  display: grid;
+  grid-template-columns: minmax(148px, auto) minmax(0, 1fr) minmax(220px, 250px);
+  gap: 18px;
+  align-items: center;
+}
+
+.meeting-scribe-toolbar-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+
+.meeting-scribe-toolbar-sep {
+  width: 1px;
+  height: 38px;
+  background: color-mix(in srgb, var(--background-modifier-border) 78%, transparent);
+}
+
+.meeting-scribe-wave-area {
+  min-width: 0;
+  overflow: hidden;
+  padding-right: 2px;
+}
+
+.meeting-scribe-wave {
+  display: grid;
+  width: 100%;
+  overflow: hidden;
+  grid-template-columns: repeat(72, minmax(0, 1fr));
+  align-items: end;
+  gap: 3px;
+  min-height: 64px;
+}
+
+.meeting-scribe-wave-bar {
+  display: block;
+  width: 100%;
+  min-height: 4px;
+  height: calc(8px + 34px * var(--meeting-wave-level));
+  border-radius: 999px;
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--interactive-accent) 66%, white),
+    color-mix(in srgb, var(--interactive-accent) 36%, var(--background-modifier-border))
+  );
+  opacity: 0.95;
+}
+
+.meeting-scribe-wave[data-wave-state="paused"] .meeting-scribe-wave-bar {
+  opacity: 0.6;
+}
+
+.meeting-scribe-wave[data-wave-state="idle"] .meeting-scribe-wave-bar {
+  opacity: 0.72;
+}
+
+.meeting-scribe-toolbar-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  position: relative;
+  z-index: 1;
+}
+
+.meeting-scribe-toolbar-controls button {
+  width: 100%;
+}
+
+.meeting-scribe-primary-pill,
+.meeting-scribe-secondary-button,
+.meeting-scribe-danger-button {
+  border-radius: 14px;
+  padding: 14px 16px;
+  font-size: 15px;
+  font-weight: 700;
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.4) inset,
+    0 4px 12px rgba(15, 23, 42, 0.08);
+}
+
+.meeting-scribe-primary-pill {
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--interactive-accent) 76%, white),
+    color-mix(in srgb, var(--interactive-accent) 100%, black 6%)
+  );
+  color: white;
+  border: 1px solid color-mix(in srgb, var(--interactive-accent) 70%, black 10%);
+}
+
+.meeting-scribe-primary-pill.is-recording,
+.meeting-scribe-primary-pill.is-processing,
+.meeting-scribe-primary-pill.is-paused {
+  opacity: 0.95;
+}
+
+.meeting-scribe-primary-pill.is-done {
+  background: color-mix(in srgb, var(--color-green) 18%, var(--background-primary));
+  color: var(--color-green);
+  border-color: color-mix(in srgb, var(--color-green) 40%, var(--background-modifier-border));
+}
+
+.meeting-scribe-primary-pill.is-failed {
+  background: color-mix(in srgb, var(--color-red) 18%, var(--background-primary));
+  color: var(--color-red);
+  border-color: color-mix(in srgb, var(--color-red) 40%, var(--background-modifier-border));
+}
+
+.meeting-scribe-secondary-button {
+  background: var(--background-primary);
+  color: var(--text-normal);
+  border: 1px solid color-mix(in srgb, var(--background-modifier-border) 88%, white);
+}
+
+.meeting-scribe-danger-button {
+  background: color-mix(in srgb, var(--color-red) 10%, var(--background-primary));
+  color: var(--color-red);
+  border: 1px solid color-mix(in srgb, var(--color-red) 30%, var(--background-modifier-border));
+}
+
+.meeting-scribe-hidden-input {
+  display: none;
+}
+
+.meeting-scribe-helper-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.meeting-scribe-status {
+  color: var(--text-muted);
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+.meeting-scribe-attachments {
+  min-height: 0;
+}
+
+.meeting-scribe-attachment-hint {
+  font-size: 12.5px;
+  line-height: 1.6;
+  color: var(--text-muted);
+  padding: 10px 14px;
+  border-radius: 14px;
+  background: color-mix(in srgb, var(--background-secondary) 80%, white);
+  border: 1px dashed var(--background-modifier-border);
+}
+
+.meeting-scribe-attachment-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.meeting-scribe-attachment-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  max-width: 100%;
+  padding: 7px 10px;
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--background-secondary) 82%, white);
+  border: 1px solid color-mix(in srgb, var(--background-modifier-border) 86%, white);
+  font-size: 12.5px;
+  color: var(--text-secondary);
+}
+
+.meeting-scribe-attachment-icon,
+.meeting-scribe-attachment-size {
+  flex: 0 0 auto;
+}
+
+.meeting-scribe-attachment-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.meeting-scribe-attachment-size {
+  color: var(--text-muted);
+}
+
+.meeting-scribe-attachment-remove {
+  border: none;
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 0;
+  font-size: 16px;
+  line-height: 1;
+}
+
+.meeting-scribe-panel {
+  border-radius: 24px;
+  padding: 20px;
+  background: var(--background-primary);
+  border: 1px solid var(--background-modifier-border);
+}
+
+.meeting-scribe-panel-hint {
+  margin-bottom: 10px;
+  color: var(--text-muted);
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+.meeting-scribe-section-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text-normal);
+  margin-bottom: 8px;
+}
+
+.meeting-scribe-notes-input {
+  width: 100%;
+  min-height: 260px;
+  padding: 16px;
+  resize: vertical;
+  border-radius: 20px;
+  background: color-mix(in srgb, var(--background-secondary) 80%, white);
+  border: 1px solid var(--background-modifier-border);
+  line-height: 1.65;
+  box-shadow: none;
+}
+
+.meeting-scribe-output-section + .meeting-scribe-output-section {
+  margin-top: 18px;
+}
+
+.meeting-scribe-output {
+  margin: 0;
+  padding: 16px;
+  white-space: pre-wrap;
+  word-break: break-word;
+  line-height: 1.7;
+  border-radius: 18px;
+  background: color-mix(in srgb, var(--background-secondary) 80%, white);
+  border: 1px solid var(--background-modifier-border);
+  font-family: var(--font-text);
+}
+
+.meeting-scribe-processing-card,
+.meeting-scribe-info-card,
+.meeting-scribe-callout {
+  border-radius: 18px;
+  padding: 16px;
+  line-height: 1.65;
+}
+
+.meeting-scribe-processing-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: color-mix(in srgb, var(--background-secondary) 72%, white);
+  border: 1px solid var(--background-modifier-border);
+}
+
+.meeting-scribe-processing-spinner {
+  width: 18px;
+  height: 18px;
+  border-radius: 999px;
+  border: 2px solid color-mix(in srgb, var(--interactive-accent) 24%, transparent);
+  border-top-color: var(--interactive-accent);
+  animation: meeting-scribe-spin 0.9s linear infinite;
+}
+
+.meeting-scribe-processing-text {
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.meeting-scribe-info-card {
+  background: color-mix(in srgb, var(--background-secondary) 72%, white);
+  border: 1px dashed var(--background-modifier-border);
+  color: var(--text-muted);
+}
+
+.meeting-scribe-callout {
+  margin-bottom: 14px;
+  font-size: 13px;
+}
+
+.meeting-scribe-callout.is-warning {
+  background: color-mix(in srgb, var(--color-orange) 10%, var(--background-primary));
+  border: 1px solid color-mix(in srgb, var(--color-orange) 30%, var(--background-modifier-border));
+  color: var(--text-normal);
+}
+
+.meeting-scribe-ai-badge {
+  display: inline-flex;
+  align-items: center;
+  margin-bottom: 12px;
+  padding: 4px 9px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--interactive-accent) 14%, var(--background-primary));
+  color: var(--interactive-accent);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.meeting-scribe-markdown-output {
+  line-height: 1.7;
+}
+
+.meeting-scribe-markdown-output > :first-child {
+  margin-top: 0;
+}
+
+.meeting-scribe-markdown-output > :last-child {
+  margin-bottom: 0;
+}
+
+.meeting-scribe-note-path {
+  margin-top: 16px;
+  font-size: 12px;
+  color: var(--text-accent);
+}
+
+@keyframes meeting-scribe-spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (max-width: 960px) {
+  .meeting-scribe-modal .modal {
+    width: min(94vw, 860px);
+  }
+
+  .meeting-scribe-toolbar-row {
+    grid-template-columns: 1fr;
+  }
+
+  .meeting-scribe-toolbar-left {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .meeting-scribe-toolbar-sep {
+    display: none;
+  }
+
+  .meeting-scribe-toolbar-controls {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .meeting-scribe-primary-pill {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 680px) {
+  .meeting-scribe-modal .modal-content {
+    padding: 18px;
+  }
+
+  .meeting-scribe-title-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .meeting-scribe-title-timer {
+    text-align: left;
+  }
+
+  .meeting-scribe-toolbar-controls {
+    grid-template-columns: 1fr;
+  }
+
+  .meeting-scribe-wave {
+    gap: 4px;
+  }
+}

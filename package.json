@@ -1,0 +1,19 @@
+{
+  "name": "meeting-scribe-ai",
+  "version": "0.1.6",
+  "private": true,
+  "description": "Obsidian plugin for recording meetings, transcribing with Doubao Speech, polishing text, and generating meeting minutes.",
+  "scripts": {
+    "dev": "node esbuild.config.mjs",
+    "build": "tsc --noEmit --skipLibCheck && node esbuild.config.mjs production",
+    "version-bump": "node version-bump.mjs"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.3",
+    "builtin-modules": "^4.0.0",
+    "esbuild": "^0.25.3",
+    "obsidian": "^1.8.9",
+    "tslib": "^2.8.1",
+    "typescript": "^5.8.3"
+  }
+}
