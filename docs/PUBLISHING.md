@@ -58,7 +58,7 @@ When submitting to `obsidianmd/obsidian-releases`, add an entry like:
   "name": "Meeting Scribe AI",
   "author": "Rick",
   "description": "Record audio in Obsidian, transcribe with Doubao Speech, polish the transcript, and generate meeting minutes.",
-  "repo": "YOUR_GITHUB_USERNAME/YOUR_REPOSITORY_NAME"
+  "repo": "chinoryunqin/ObMeeting"
 }
 ```
 
