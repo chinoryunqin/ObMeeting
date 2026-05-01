@@ -223,6 +223,10 @@
   display: none;
 }
 
+.meeting-scribe-hidden {
+  display: none !important;
+}
+
 .meeting-scribe-helper-row {
   display: flex;
   align-items: center;

@@ -46,7 +46,7 @@ export class DoubaoFlashTranscriber {
 
     try {
       const result = await withTimeout(
-        this.transcribeWithFetch(requestBody, headers),
+        this.transcribeWithRequestUrl(requestBody, headers),
         TRANSCRIBE_TIMEOUT_MS,
         "豆包语音转写等待超时，请缩短录音后重试。"
       );
@@ -54,54 +54,11 @@ export class DoubaoFlashTranscriber {
         return result;
       }
     } catch (error) {
-      debugAttempts.push(`fetch: ${stringifyError(error)}`);
-    }
-
-    try {
-      const response = await withTimeout(
-        requestUrl({
-          url: this.settings.doubaoEndpoint,
-          method: "POST",
-          headers,
-          body: requestBody
-        }),
-        TRANSCRIBE_TIMEOUT_MS,
-        "豆包语音转写等待超时，请缩短录音后重试。"
-      );
-
-      if (response.status < 200 || response.status >= 300) {
-        throw new Error(`豆包语音识别请求失败，HTTP ${response.status}。请检查接口地址和鉴权配置。`);
-      }
-
-      const statusCode =
-        response.headers["x-api-status-code"] ??
-        response.headers["X-Api-Status-Code"] ??
-        response.headers["X-Api-Status-code"];
-      if (statusCode && statusCode !== "20000000") {
-        const message =
-          response.headers["x-api-message"] ??
-          response.headers["X-Api-Message"] ??
-          "未知错误";
-        throw new Error(`豆包语音识别失败：${statusCode} ${message}`);
-      }
-
-      const payload = response.json as {
-        audio_info?: { duration?: number };
-        result?: {
-          text?: string;
-          utterances?: Array<{
-            start_time?: number;
-            end_time?: number;
-            text?: string;
-          }>;
-        };
-      };
-
-      return parseTranscriptionPayload(payload);
-    } catch (error) {
       debugAttempts.push(`requestUrl: ${stringifyError(error)}`);
       throw normalizeDoubaoError(error, debugAttempts);
     }
+
+    throw new Error("豆包语音识别没有返回可用结果。");
   }
 
   private async transcribeWithNodeHttps(
@@ -179,31 +136,34 @@ export class DoubaoFlashTranscriber {
     return parseTranscriptionPayload(payload);
   }
 
-  private async transcribeWithFetch(
+  private async transcribeWithRequestUrl(
     requestBody: string,
     headers: Record<string, string>
-  ): Promise<TranscriptionResult | null> {
-    if (typeof fetch !== "function") {
-      return null;
-    }
-
-    const response = await fetch(this.settings.doubaoEndpoint, {
+  ): Promise<TranscriptionResult> {
+    const response = await requestUrl({
+      url: this.settings.doubaoEndpoint,
       method: "POST",
       headers,
       body: requestBody
     });
 
-    if (!response.ok) {
+    if (response.status < 200 || response.status >= 300) {
       throw new Error(`豆包语音识别请求失败，HTTP ${response.status}。请检查接口地址和鉴权配置。`);
     }
 
-    const statusCode = response.headers.get("x-api-status-code");
-    const statusMessage = response.headers.get("x-api-message") ?? "未知错误";
+    const statusCode =
+      response.headers["x-api-status-code"] ??
+      response.headers["X-Api-Status-Code"] ??
+      response.headers["X-Api-Status-code"];
+    const statusMessage =
+      response.headers["x-api-message"] ??
+      response.headers["X-Api-Message"] ??
+      "未知错误";
     if (statusCode && statusCode !== "20000000") {
       throw new Error(`豆包语音识别失败：${statusCode} ${statusMessage}`);
     }
 
-    const payload = await response.json() as {
+    const payload = response.json as {
       audio_info?: { duration?: number };
       result?: {
         text?: string;
@@ -272,7 +232,7 @@ function normalizeDoubaoError(error: unknown, debugAttempts: string[] = []): Err
 
   if (status === "401") {
     return new Error(
-      `豆包语音识别鉴权失败（401）。请检查 API Key，或旧版 APP ID / Access Token（不是 Secret Key），以及 Resource ID 和 Endpoint 是否匹配。${debugSuffix}`
+      `豆包语音识别鉴权失败（401）。请检查 API key，或旧版 App ID / access token（不是 secret key），以及 resource ID 和 endpoint 是否匹配。${debugSuffix}`
     );
   }
 
@@ -283,7 +243,7 @@ function normalizeDoubaoError(error: unknown, debugAttempts: string[] = []): Err
   }
 
   if (status === "404") {
-    return new Error(`豆包语音识别接口地址不存在（404）。请检查 Endpoint 是否填写正确。${debugSuffix}`);
+    return new Error(`豆包语音识别接口地址不存在（404）。请检查 endpoint 是否填写正确。${debugSuffix}`);
   }
 
   return new Error(`豆包语音识别请求失败：${message}${debugSuffix}`);
@@ -389,7 +349,7 @@ function withTimeout<T>(promise: Promise<T>, timeoutMs: number, message: string)
       })
       .catch((error) => {
         window.clearTimeout(timer);
-        reject(error);
+        reject(error instanceof Error ? error : new Error(String(error)));
       });
   });
 }

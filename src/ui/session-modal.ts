@@ -64,7 +64,7 @@ export class VoiceSessionModal extends Modal {
     super(app);
   }
 
-  async onOpen(): Promise<void> {
+  onOpen(): void {
     this.modalEl.addClass("meeting-scribe-modal");
     this.contentEl.empty();
     this.markdownComponent.load();
@@ -553,10 +553,10 @@ export class VoiceSessionModal extends Modal {
     const isDone = this.sessionState === "done";
     const isFailed = this.sessionState === "failed";
 
-    this.startButton.style.display = "";
-    this.pauseButton.style.display = "";
-    this.stopButton.style.display = "";
-    this.attachButton.style.display = "";
+    setControlHidden(this.startButton, false);
+    setControlHidden(this.pauseButton, false);
+    setControlHidden(this.stopButton, false);
+    setControlHidden(this.attachButton, false);
 
     this.startButton.disabled = false;
     this.pauseButton.disabled = isProcessing || isDone || isFailed || !this.hasRecordingStarted;
@@ -567,8 +567,8 @@ export class VoiceSessionModal extends Modal {
 
     if (isIdle) {
       this.startButton.setText("开始录音");
-      this.pauseButton.style.display = "none";
-      this.stopButton.style.display = "none";
+      setControlHidden(this.pauseButton, true);
+      setControlHidden(this.stopButton, true);
     } else if (isRecording) {
       this.startButton.setText("录音中");
       this.startButton.addClass("is-recording");
@@ -585,23 +585,23 @@ export class VoiceSessionModal extends Modal {
       this.startButton.setText("处理中");
       this.startButton.addClass("is-processing");
       this.startButton.disabled = true;
-      this.pauseButton.style.display = "none";
-      this.stopButton.style.display = "none";
-      this.attachButton.style.display = "none";
+      setControlHidden(this.pauseButton, true);
+      setControlHidden(this.stopButton, true);
+      setControlHidden(this.attachButton, true);
     } else if (isDone) {
       this.startButton.setText("分析完成");
       this.startButton.addClass("is-done");
       this.startButton.disabled = true;
-      this.pauseButton.style.display = "none";
-      this.stopButton.style.display = "none";
-      this.attachButton.style.display = "none";
+      setControlHidden(this.pauseButton, true);
+      setControlHidden(this.stopButton, true);
+      setControlHidden(this.attachButton, true);
     } else if (isFailed) {
       this.startButton.setText("处理失败");
       this.startButton.addClass("is-failed");
       this.startButton.disabled = true;
-      this.pauseButton.style.display = "none";
-      this.stopButton.style.display = "none";
-      this.attachButton.style.display = "none";
+      setControlHidden(this.pauseButton, true);
+      setControlHidden(this.stopButton, true);
+      setControlHidden(this.attachButton, true);
     }
 
     this.notesInput?.toggleClass("is-readonly", isDone);
@@ -624,6 +624,10 @@ function renderTextSection(container: HTMLElement, title: string, content: strin
 
 function buildWaveLevels(): number[] {
   return Array.from({ length: WAVE_BAR_COUNT }, (_, index) => idleLevel(index));
+}
+
+function setControlHidden(element: HTMLElement, hidden: boolean): void {
+  element.classList.toggle("meeting-scribe-hidden", hidden);
 }
 
 function normalizeLevels(levels: number[], count: number): number[] {

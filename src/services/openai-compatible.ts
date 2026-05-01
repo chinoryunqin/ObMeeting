@@ -76,7 +76,7 @@ export class OpenAICompatibleClient {
 
   private async chat(messages: ChatMessage[]): Promise<string> {
     if (!this.isConfigured()) {
-      throw new Error("请先在插件设置中填写文稿优化模型的 Base URL、API Key 和模型名。");
+      throw new Error("请先在插件设置中填写文稿优化模型的 base URL、API key 和模型名。");
     }
 
     const url = joinUrl(this.settings.llmBaseUrl, "/chat/completions");
@@ -118,21 +118,6 @@ export class OpenAICompatibleClient {
   }
 
   private async requestJson(url: string, headers: Record<string, string>, body: string): Promise<ChatResponsePayload> {
-    try {
-      const payload = await withTimeout(
-        this.requestWithFetch(url, headers, body),
-        LLM_TIMEOUT_MS,
-        "文稿模型请求超时，请稍后重试。"
-      );
-      if (payload) {
-        return payload;
-      }
-    } catch (error) {
-      if (!isRetryableLlmError(error)) {
-        throw error;
-      }
-    }
-
     try {
       const payload = await withTimeout(
         this.requestWithNodeHttps(url, headers, body),
@@ -227,29 +212,6 @@ export class OpenAICompatibleClient {
     ]);
   }
 
-  private async requestWithFetch(
-    url: string,
-    headers: Record<string, string>,
-    body: string
-  ): Promise<ChatResponsePayload | null> {
-    if (typeof fetch !== "function") {
-      return null;
-    }
-
-    const response = await fetch(url, {
-      method: "POST",
-      headers,
-      body
-    });
-    const text = await response.text();
-
-    if (!response.ok) {
-      throw new Error(buildHttpErrorMessage(response.status, text));
-    }
-
-    return JSON.parse(text) as ChatResponsePayload;
-  }
-
   private async requestWithNodeHttps(
     url: string,
     headers: Record<string, string>,
@@ -335,7 +297,7 @@ function normalizeLlmError(error: unknown): Error {
   }
 
   if (status === "401") {
-    return new Error("文稿优化模型鉴权失败（401）。请检查 Base URL、API Key 和模型名是否填写正确。");
+    return new Error("文稿优化模型鉴权失败（401）。请检查 base URL、API key 和模型名是否填写正确。");
   }
 
   if (status === "403") {
@@ -343,7 +305,7 @@ function normalizeLlmError(error: unknown): Error {
   }
 
   if (status === "404") {
-    return new Error("文稿优化模型接口不存在（404）。请检查 Base URL 是否以服务商要求的 `/v1` 结尾。");
+    return new Error("文稿优化模型接口不存在（404）。请检查 base URL 是否以服务商要求的 `/v1` 结尾。");
   }
 
   if (status === "400") {
@@ -396,7 +358,7 @@ function withTimeout<T>(promise: Promise<T>, timeoutMs: number, message: string)
       })
       .catch((error) => {
         window.clearTimeout(timer);
-        reject(error);
+        reject(error instanceof Error ? error : new Error(String(error)));
       });
   });
 }

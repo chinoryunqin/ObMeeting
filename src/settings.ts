@@ -11,7 +11,7 @@ export class MeetingScribeSettingTab extends PluginSettingTab {
     const { containerEl } = this;
     containerEl.empty();
 
-    containerEl.createEl("h2", { text: "Meeting Scribe AI" });
+    new Setting(containerEl).setName("Meeting Scribe AI").setHeading();
     containerEl.createEl("p", {
       text: "录音结束后，插件会将音频发送给豆包语音做转写，再把转录结果交给你配置的 OpenAI 兼容模型做润色和会议纪要整理。"
     });
@@ -87,7 +87,7 @@ export class MeetingScribeSettingTab extends PluginSettingTab {
         })
       );
 
-    containerEl.createEl("h3", { text: "豆包语音转写" });
+    new Setting(containerEl).setName("豆包语音转写").setHeading();
 
     new Setting(containerEl)
       .setName("极速识别接口地址")
@@ -104,11 +104,11 @@ export class MeetingScribeSettingTab extends PluginSettingTab {
       );
 
     const doubaoApiKeySetting = new Setting(containerEl)
-      .setName("API Key")
+      .setName("API key")
       .setDesc("新版控制台优先使用这一项。")
       .addText((text) =>
         text
-          .setPlaceholder("填写新版控制台 API Key")
+          .setPlaceholder("填写新版控制台 API key")
           .setValue(this.plugin.settings.doubaoApiKey)
           .onChange(async (value) => {
             this.plugin.settings.doubaoApiKey = value.trim();
@@ -118,8 +118,8 @@ export class MeetingScribeSettingTab extends PluginSettingTab {
     doubaoApiKeySetting.controlEl.querySelector("input")?.setAttribute("type", "password");
 
     const doubaoAppKeySetting = new Setting(containerEl)
-      .setName("App Key（旧版 APP ID）")
-      .setDesc("仅当你还在用旧版控制台时填写。这里对应火山控制台里的 APP ID。")
+      .setName("App key（旧版 App ID）")
+      .setDesc("仅当你还在用旧版控制台时填写。这里对应火山控制台里的 App ID。")
       .addText((text) =>
         text.setValue(this.plugin.settings.doubaoAppKey).onChange(async (value) => {
           this.plugin.settings.doubaoAppKey = value.trim();
@@ -129,8 +129,8 @@ export class MeetingScribeSettingTab extends PluginSettingTab {
     doubaoAppKeySetting.controlEl.querySelector("input")?.setAttribute("type", "password");
 
     const doubaoAccessKeySetting = new Setting(containerEl)
-      .setName("Access Key（旧版 Access Token）")
-      .setDesc("填写旧版控制台里的 Access Token，不是 Secret Key。")
+      .setName("Access key（旧版 access token）")
+      .setDesc("填写旧版控制台里的 access token，不是 secret key。")
       .addText((text) =>
         text.setValue(this.plugin.settings.doubaoAccessKey).onChange(async (value) => {
           this.plugin.settings.doubaoAccessKey = value.trim();
@@ -149,7 +149,7 @@ export class MeetingScribeSettingTab extends PluginSettingTab {
         })
       );
 
-    containerEl.createEl("h3", { text: "文稿优化与会议纪要" });
+    new Setting(containerEl).setName("文稿优化与会议纪要").setHeading();
 
     new Setting(containerEl)
       .setName("启用润色")
@@ -170,7 +170,7 @@ export class MeetingScribeSettingTab extends PluginSettingTab {
       );
 
     new Setting(containerEl)
-      .setName("OpenAI 兼容 Base URL")
+      .setName("OpenAI 兼容 base URL")
       .setDesc("例如 OpenAI、DeepSeek、火山引擎 Ark、OpenRouter 等兼容 chat/completions 的接口。")
       .addText((text) =>
         text.setValue(this.plugin.settings.llmBaseUrl).onChange(async (value) => {
@@ -180,7 +180,7 @@ export class MeetingScribeSettingTab extends PluginSettingTab {
       );
 
     const llmApiKeySetting = new Setting(containerEl)
-      .setName("OpenAI 兼容 API Key")
+      .setName("OpenAI 兼容 API key")
       .addText((text) =>
         text.setValue(this.plugin.settings.llmApiKey).onChange(async (value) => {
           this.plugin.settings.llmApiKey = value.trim();
