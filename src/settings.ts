@@ -13,7 +13,7 @@ export class MeetingScribeSettingTab extends PluginSettingTab {
 
     new Setting(containerEl).setName("常规设置").setHeading();
     containerEl.createEl("p", {
-      text: "录音结束后，插件会将音频发送给豆包语音做转写，再把转录结果交给你配置的 openAI 兼容模型做润色和会议纪要整理。"
+      text: "录音结束后，插件会将音频发送给豆包语音做转写，再把转录结果交给你配置的文稿模型做润色和会议纪要整理。"
     });
 
     new Setting(containerEl)
