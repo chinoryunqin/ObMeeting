@@ -346,7 +346,7 @@ export class VoiceSessionModal extends Modal {
     if (this.attachments.length === 0) {
       if (this.sessionState === "idle") {
         const hint = this.attachmentsEl.createDiv({ cls: "meeting-scribe-attachment-hint" });
-        hint.setText("可选：上传截屏、PPT、文档等会议资料。当前版本会记录附件名称，附件内容解析稍后接入。");
+        hint.setText("可选：上传截屏、演示文稿、文档等会议资料。当前版本会记录附件名称，附件内容解析稍后接入。");
       }
       return;
     }

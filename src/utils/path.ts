@@ -1,12 +1,16 @@
 import { normalizePath, Vault } from "obsidian";
 
-const INVALID_FILE_CHARS = /[][\\/:*?"<>|#^]+/g;
+const INVALID_FILE_CHARS = /[\\/:*?"<>|#^]+/g;
 const MULTIPLE_SPACES = /\s+/g;
 
 export function sanitizeFileName(input: string): string {
   return input
     .trim()
     .replace(INVALID_FILE_CHARS, " ")
+    .split("[")
+    .join(" ")
+    .split("]")
+    .join(" ")
     .replace(MULTIPLE_SPACES, " ")
     .slice(0, 120);
 }

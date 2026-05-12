@@ -232,7 +232,7 @@ function normalizeDoubaoError(error: unknown, debugAttempts: string[] = []): Err
 
   if (status === "401") {
     return new Error(
-      `豆包语音识别鉴权失败（401）。请检查 API key，或旧版 App ID / access token（不是 secret key），以及 resource ID 和 endpoint 是否匹配。${debugSuffix}`
+      `豆包语音识别鉴权失败（401）。请检查 API key，或旧版 app ID / access token（不是 secret key），以及 resource ID 和 endpoint 是否匹配。${debugSuffix}`
     );
   }
 

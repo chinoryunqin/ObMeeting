@@ -11,9 +11,9 @@ export class MeetingScribeSettingTab extends PluginSettingTab {
     const { containerEl } = this;
     containerEl.empty();
 
-    new Setting(containerEl).setName("Meeting Scribe AI").setHeading();
+    new Setting(containerEl).setName("常规设置").setHeading();
     containerEl.createEl("p", {
-      text: "录音结束后，插件会将音频发送给豆包语音做转写，再把转录结果交给你配置的 OpenAI 兼容模型做润色和会议纪要整理。"
+      text: "录音结束后，插件会将音频发送给豆包语音做转写，再把转录结果交给你配置的 openAI 兼容模型做润色和会议纪要整理。"
     });
 
     new Setting(containerEl)
@@ -118,8 +118,8 @@ export class MeetingScribeSettingTab extends PluginSettingTab {
     doubaoApiKeySetting.controlEl.querySelector("input")?.setAttribute("type", "password");
 
     const doubaoAppKeySetting = new Setting(containerEl)
-      .setName("App key（旧版 App ID）")
-      .setDesc("仅当你还在用旧版控制台时填写。这里对应火山控制台里的 App ID。")
+      .setName("App key（旧版 app ID）")
+      .setDesc("仅当你还在用旧版控制台时填写。这里对应火山控制台里的 app ID。")
       .addText((text) =>
         text.setValue(this.plugin.settings.doubaoAppKey).onChange(async (value) => {
           this.plugin.settings.doubaoAppKey = value.trim();
@@ -170,8 +170,8 @@ export class MeetingScribeSettingTab extends PluginSettingTab {
       );
 
     new Setting(containerEl)
-      .setName("OpenAI 兼容 base URL")
-      .setDesc("例如 OpenAI、DeepSeek、火山引擎 Ark、OpenRouter 等兼容 chat/completions 的接口。")
+      .setName("模型接口地址")
+      .setDesc("填写兼容 chat/completions 的接口地址。")
       .addText((text) =>
         text.setValue(this.plugin.settings.llmBaseUrl).onChange(async (value) => {
           this.plugin.settings.llmBaseUrl = value.trim();
@@ -180,7 +180,7 @@ export class MeetingScribeSettingTab extends PluginSettingTab {
       );
 
     const llmApiKeySetting = new Setting(containerEl)
-      .setName("OpenAI 兼容 API key")
+      .setName("模型 API key")
       .addText((text) =>
         text.setValue(this.plugin.settings.llmApiKey).onChange(async (value) => {
           this.plugin.settings.llmApiKey = value.trim();
