@@ -1,7 +1,7 @@
 {
   "id": "meeting-scribe-ai",
   "name": "Meeting Scribe AI",
-  "version": "0.1.10",
+  "version": "0.1.11",
   "minAppVersion": "1.5.12",
   "description": "Record audio, transcribe with Doubao Speech, polish the transcript, and generate meeting minutes.",
   "author": "Rick",
